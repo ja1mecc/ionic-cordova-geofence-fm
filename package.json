@@ -1,35 +1,12 @@
 {
-  "_from": "git+https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
-  "_id": "cordova-plugin-plantilla@1.0.0",
-  "_inBundle": false,
-  "_integrity": "",
-  "_location": "/cordova-plugin-plantilla",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "git",
-    "raw": "https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
-    "rawSpec": "https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
-    "saveSpec": "git+https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
-    "fetchSpec": "https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
-    "gitCommittish": null
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "git+https://github.com/ja1mecc/ionic-cordova-geofence-fm.git#c2a05030c4abe950e76f1c76488cf3dc84637e3a",
-  "_spec": "https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
-  "_where": "/Users/jaime/ProyectosGIT/collahuasi-sos-app",
-  "bundleDependencies": false,
+  "name": "cordova-plugin-geofence-fm",
+  "version": "1.0.0",
   "cordova": {
-    "id": "cordova-plugin-plantilla",
+    "id": "cordova-plugin-geofence-fm",
     "platforms": [
       "android",
       "ios"
     ]
   },
-  "deprecated": false,
-  "description": "Plantilla base para crear un Plugin personalizado",
-  "name": "cordova-plugin-plantilla",
-  "version": "1.0.0"
+  "description": "Plugin Geofence Finmarkets personalizado"
 }
