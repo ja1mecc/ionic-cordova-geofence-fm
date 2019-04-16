@@ -1,5 +1,5 @@
 {
-  "_from": "git+https://github.com/thecouk/ionic-cordova-plugin-template.git",
+  "_from": "git+https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
   "_id": "cordova-plugin-plantilla@1.0.0",
   "_inBundle": false,
   "_integrity": "",
@@ -7,18 +7,18 @@
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "https://github.com/thecouk/ionic-cordova-plugin-template.git",
-    "rawSpec": "https://github.com/thecouk/ionic-cordova-plugin-template.git",
-    "saveSpec": "git+https://github.com/thecouk/ionic-cordova-plugin-template.git",
-    "fetchSpec": "https://github.com/thecouk/ionic-cordova-plugin-template.git",
+    "raw": "https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
+    "rawSpec": "https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
+    "saveSpec": "git+https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
+    "fetchSpec": "https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
     "gitCommittish": null
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
-  "_resolved": "git+https://github.com/thecouk/ionic-cordova-plugin-template.git#3b049444a108933e78a68f1b958c9032862936b2",
-  "_spec": "https://github.com/thecouk/ionic-cordova-plugin-template.git",
+  "_resolved": "git+https://github.com/ja1mecc/ionic-cordova-geofence-fm.git#3b049444a108933e78a68f1b958c9032862936b2",
+  "_spec": "https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
   "_where": "/Users/jaime/Desktop/sos",
   "bundleDependencies": false,
   "cordova": {
