@@ -1,4 +1,4 @@
-# Plugin Geofence sólo para Finmarkets
+# Plugin Geofence Finmarkets
 ======
 
 Plugin de iOS y Android.
