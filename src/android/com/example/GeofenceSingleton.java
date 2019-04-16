@@ -35,7 +35,7 @@ import java.util.List;
 import static android.os.Looper.getMainLooper;
 
 public class GeofenceSingleton {
-    public static final String TAG = "MiPlugin";
+    public static final String TAG = "GeofenceFM";
 
     private Context appContext;
     private static final String ERR_MSG = "Application Context is not set!! " +

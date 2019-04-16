@@ -17,9 +17,9 @@
     "#USER",
     "/"
   ],
-  "_resolved": "git+https://github.com/ja1mecc/ionic-cordova-geofence-fm.git#3b049444a108933e78a68f1b958c9032862936b2",
+  "_resolved": "git+https://github.com/ja1mecc/ionic-cordova-geofence-fm.git#c2a05030c4abe950e76f1c76488cf3dc84637e3a",
   "_spec": "https://github.com/ja1mecc/ionic-cordova-geofence-fm.git",
-  "_where": "/Users/jaime/Desktop/sos",
+  "_where": "/Users/jaime/ProyectosGIT/collahuasi-sos-app",
   "bundleDependencies": false,
   "cordova": {
     "id": "cordova-plugin-plantilla",

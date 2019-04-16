@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    id="mi-plugin"
+    id="cordova-plugin-geofence-fm"
     version="1.0.0">
-    <name>Cordova Plugin Template</name>
+    <name>Cordova Plugin Geofence Finmarkets</name>
     <description></description>
     <license>MIT</license>
     <keywords></keywords>
@@ -16,11 +16,11 @@
         <runs/>
 
         <!-- Este es el nombre por el cual se accedera el plugin -->
-        <clobbers target="MiPlugin" />
+        <clobbers target="GeofenceFM" />
       </js-module>
       <config-file target="res/xml/config.xml" parent="/*">
-        <feature name="MiPlugin">
-          <param name="android-package" value="com.example.MiPlugin" />
+        <feature name="GeofenceFM">
+          <param name="android-package" value="com.example.GeofenceFM" />
           <param name="onload" value="true" />
         </feature>
       </config-file>
@@ -38,7 +38,7 @@
 
       <framework src='com.google.android.gms:play-services-location:11.6.2' />
       
-      <source-file src="src/android/com/example/MiPlugin.java" target-dir="src/com/example/" />
+      <source-file src="src/android/com/example/GeofenceFM.java" target-dir="src/com/example/" />
       <source-file src="src/android/com/example/GeofenceSingleton.java" target-dir="src/com/example/" />
       <source-file src="src/android/com/example/GeofenceTransitionsIntentService.java" target-dir="src/com/example/" />
       <source-file src="src/android/com/example/JSONParser.java" target-dir="src/com/example/" />
@@ -50,15 +50,15 @@
     <platform name="ios">
         <js-module src="www/plugin.js" name="plugin">
             <runs/>
-            <clobbers target="MiPlugin" />
+            <clobbers target="GeofenceFM" />
         </js-module>
         <config-file target="config.xml" parent="/*">
-            <feature name="MiPlugin">
-                <param name="ios-package" value="MiPlugin" onload="true" />
+            <feature name="GeofenceFM">
+                <param name="ios-package" value="GeofenceFM" onload="true" />
             </feature>
         </config-file>
 
-        <header-file src="src/ios/MiPlugin.h" />
-        <source-file src="src/ios/MiPlugin.m" />
+        <header-file src="src/ios/GeofenceFM.h" />
+        <source-file src="src/ios/GeofenceFM.m" />
     </platform>
 </plugin>
