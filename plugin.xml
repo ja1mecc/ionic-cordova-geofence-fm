@@ -3,7 +3,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="cordova-plugin-geofence-fm"
     version="1.0.0">
-    <name>Cordova Plugin Geofence Finmarkets</name>
+    <name>GeofenceFM</name>
     <description></description>
     <license>MIT</license>
     <keywords></keywords>
