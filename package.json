@@ -1,5 +1,5 @@
 {
-  "name": "GeofenceFM",
+  "name": "cordova-plugin-geofence-fm",
   "version": "1.0.0",
   "cordova": {
     "id": "cordova-plugin-geofence-fm",
@@ -8,5 +8,7 @@
       "ios"
     ]
   },
-  "description": "Plugin Geofence Finmarkets personalizado"
+  "description": "Plugin Geofence Finmarkets personalizado",
+  "author": "Ja1meCC",
+  "license": "MIT"
 }
