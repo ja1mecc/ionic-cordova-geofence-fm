@@ -12,7 +12,7 @@ Instalar Plugin: `ionic cordova plugin add https://github.com/ja1mecc/ionic-cord
 Implementar provider/service  del plugin para utilizarlo en page
 
 ## geofence-fm.service.ts
-...
+```
 import { Injectable } from '@angular/core';
 import { Plugin, cordova, CordovaProperty, CordovaInstance, IonicNativePlugin } from '@ionic-native/core';
 
@@ -36,7 +36,7 @@ export class GeofenceFmService extends IonicNativePlugin {
  }
   
 }
-...
+```
 
 
 ## Implementación en proyecto
@@ -44,23 +44,23 @@ export class GeofenceFmService extends IonicNativePlugin {
 Importar provider/service  del plugin en @NgModule
 
 ## app.module.ts
-...
+```
 import { GeofenceFmService } from './providers/geofence-fm.service';
 
-
+...
 
 @NgModule({
-
+...
 
   providers: [
-
+...
     GeofenceFmService
-
+...
   ]
-
+...
 })
 export class AppModule { }
-...
+```
 
 Importar provider/service  del plugin en page
 
