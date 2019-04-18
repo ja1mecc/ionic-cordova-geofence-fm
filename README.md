@@ -89,7 +89,7 @@ export class HomePage {
 
 	this.platform.ready().then(() => {
 		geofenceFmService.init().then((data) => {
-			if(data.equals("OK"))
+			if(data == "OK")
 				geofenceFmService.addOrUpdateFence({
 				    id: { id } + "|" + { rut } + "|" + { tokenDevice },
 				    latitud: -33.3984827,
