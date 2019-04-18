@@ -1,4 +1,4 @@
-# Plugin Geofence Finmarkets
+# Plugin Geofence Finmarkets IONIC v4
 ======
 
 Plugin de iOS y Android.
@@ -9,11 +9,11 @@ Instalar Plugin: `ionic cordova plugin add https://github.com/ja1mecc/ionic-cord
 
 ### Remover:
 
-Instalar Plugin: `ionic cordova plugin rm ionic-cordova-geofence-fm`
+Remover Plugin: `ionic cordova plugin rm ionic-cordova-geofence-fm`
 
-### Crear provider/service para implementar Plugin
+### Crea provider/service de Plugin
 
-Implementar provider/service  del plugin para utilizarlo en page
+Crear provider/service del plugin para utilizarlo en page `ionic generate service providers/geofence-fm`
 
 #### geofence-fm.service.ts
 ```
@@ -68,23 +68,22 @@ export class AppModule { }
 
 Importar provider/service  del plugin en page
 
-#### home.ts:
+#### home.page.ts:
 
 ```
 import { Component } from '@angular/core';
-//Agregar Platform para poder evaluar si ya se cargo y esta lista la plataforma
-import { NavController, Platform } from 'ionic-angular';
+import { Platform } from '@ionic/angular';
 
 import { GeofenceFmService } from './../providers/geofence-fm.service';
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
 })
 export class HomePage {
 
   constructor(
-  	public navCtrl: NavController,
   	public platform: Platform, 
   	public geofenceFmService: GeofenceFmService) {
 
