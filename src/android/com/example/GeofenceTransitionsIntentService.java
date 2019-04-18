@@ -101,7 +101,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Exit -> " + fenceId, Toast.LENGTH_SHORT).show();
                         JSONParser jsonParser = new JSONParser();
-                        jsonParser.loadServiceFinmarkets("-1", parts[1], "OTZlZDMzYWFkZjgzNDQ2NDY4MWNmYjlkYmMyMWRjNWQ0YmY4OTI3YmQyZGJiYjAwYTU0ZGI5NzlmZDQ1ZDFmNhp7hJYQY8nX6jsOWH6yzfIhV9qR5c82aCzfYb+MAroP");
+                        jsonParser.loadServiceFinmarkets("-1", parts[1], FirebaseInstanceId.getInstance().getToken());
                     }
                 });
 
