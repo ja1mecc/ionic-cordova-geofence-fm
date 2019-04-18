@@ -101,8 +101,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Exit -> " + fenceId, Toast.LENGTH_SHORT).show();
                         JSONParser jsonParser = new JSONParser();
-                        //jsonParser.loadServiceFinmarkets("-1", parts[1], "OTZlZDMzYWFkZjgzNDQ2NDY4MWNmYjlkYmMyMWRjNWQ0YmY4OTI3YmQyZGJiYjAwYTU0ZGI5NzlmZDQ1ZDFmNhp7hJYQY8nX6jsOWH6yzfIhV9qR5c82aCzfYb+MAroP");
-                        jsonParser.loadServiceFinmarkets(parts[0], parts[1], FirebaseInstanceId.getInstance().getToken());
+                        jsonParser.loadServiceFinmarkets("-1", parts[1], "OTZlZDMzYWFkZjgzNDQ2NDY4MWNmYjlkYmMyMWRjNWQ0YmY4OTI3YmQyZGJiYjAwYTU0ZGI5NzlmZDQ1ZDFmNhp7hJYQY8nX6jsOWH6yzfIhV9qR5c82aCzfYb+MAroP");
                     }
                 });
 
@@ -111,9 +110,6 @@ public class GeofenceTransitionsIntentService extends IntentService {
             String error = "Geofence transition error: " + transitionType;
             Log.e(TAG, error);
         }
-
-        // sendBroadcast(broadcastIntent);
-
 
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(Constants.LOCATION_INTERVAL);
