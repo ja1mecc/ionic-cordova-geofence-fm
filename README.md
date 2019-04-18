@@ -7,6 +7,10 @@ Plugin de iOS y Android.
 
 Instalar Plugin: `ionic cordova plugin add https://github.com/ja1mecc/ionic-cordova-geofence-fm.git`
 
+### Remover:
+
+Instalar Plugin: `ionic cordova plugin rm ionic-cordova-geofence-fm`
+
 ### Crear provider/service para implementar Plugin
 
 Implementar provider/service  del plugin para utilizarlo en page
