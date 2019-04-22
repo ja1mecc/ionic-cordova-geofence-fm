@@ -79,7 +79,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Entered -> " + fenceId, Toast.LENGTH_SHORT).show();
                         JSONParser jsonParser = new JSONParser();
-                        jsonParser.loadServiceFinmarkets(parts[0], parts[1], FirebaseInstanceId.getInstance().getToken());
+                        jsonParser.loadServiceFinmarkets(parts[0], parts[1], FirebaseInstanceId.getInstance().getToken(), "entrada");
                     }
                 });
 
@@ -101,7 +101,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Exit -> " + fenceId, Toast.LENGTH_SHORT).show();
                         JSONParser jsonParser = new JSONParser();
-                        jsonParser.loadServiceFinmarkets("-1", parts[1], FirebaseInstanceId.getInstance().getToken());
+                        jsonParser.loadServiceFinmarkets(parts[0], parts[1], FirebaseInstanceId.getInstance().getToken(), "salida");
                     }
                 });
 

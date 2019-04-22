@@ -19,17 +19,17 @@ import java.net.URL;
 public class JSONParser {
     private static final String TAG = "JSONParser";
 
-    public void loadServiceFinmarkets(String area, String rut, String clave) {
-        Log.i(TAG, "area -> " + area + ", rut -> " + rut + ", clave -> " + clave);
+    public void loadServiceFinmarkets(String area, String rut, String clave, String action) {
+        Log.i(TAG, "area -> " + area + ", rut -> " + rut + ", clave -> " + clave + ", action -> " + action);
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                loginSession(area, rut, clave); //Realizar aquí tu proceso!
+                loginSession(area, rut, clave, action); //Realizar aquí tu proceso!
             }
         });
     }
 
-    private void loginSession(String area, String rut, String clave) {
+    private void loginSession(String area, String rut, String clave, String action) {
         StringBuilder sb = new StringBuilder();
 
         String http = "http://www.finmarketsbackup.cl/jsepulveda/collahuasi-sos/api/login";
@@ -72,7 +72,7 @@ public class JSONParser {
                 String token = jsonObjData.getString("token");
 
                 Log.d(TAG, "1: " + sb.toString());
-                proceso(token,area);
+                proceso(token,area, action);
 
             } else {
                 Log.d(TAG, "2: " + urlConnection.getResponseMessage());
@@ -93,7 +93,7 @@ public class JSONParser {
         }
     }
 
-    private void proceso(String token, String area) {
+    private void proceso(String token, String area, String action) {
         StringBuilder sb = new StringBuilder();
 
         String http = "http://www.finmarketsbackup.cl/jsepulveda/collahuasi-sos/api/user/updatearea";
@@ -117,6 +117,7 @@ public class JSONParser {
             //Create JSONObject here
             JSONObject jsonParam = new JSONObject();
             jsonParam.put("area", area);
+            jsonParam.put("action", action);
             OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
             out.write(jsonParam.toString());
             out.close();
