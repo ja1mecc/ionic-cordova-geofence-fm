@@ -66,8 +66,24 @@ public class GeofenceFM extends CordovaPlugin {
 
                 if (action.equals("addOrUpdateFence")) {
                     try {
-                        String id = args.optJSONObject(0).optString("id");
 
+                        for (int i = 0; i < args.optJSONArray(0).length(); i++) {
+
+                            Log.d(TAG, "args.getJSONObject -> " + args.optJSONArray(0).optJSONObject(i));
+
+                            String id = args.optJSONArray(0).optJSONObject(i).optString("id");
+                            double latitud = args.optJSONArray(0).optJSONObject(i).optDouble("latitud");
+                            double longitud = args.optJSONArray(0).optJSONObject(i).optDouble("longitud");
+                            int radius = args.optJSONArray(0).optJSONObject(i).optInt("radius");
+
+                            String[] parts = id.split("\\|");
+
+                            String idFence = parts[0] + "|" + parts[1];
+                            geofenceSingleton.addGeofence(latitud, longitud, radius, idFence);
+                        }
+
+/*
+                        String id = args.optJSONObject(0).optString("id");
                         double latitud = args.optJSONObject(0).optDouble("latitud");
                         double longitud = args.optJSONObject(0).optDouble("longitud");
                         int radius = args.optJSONObject(0).optInt("radius");
@@ -75,7 +91,7 @@ public class GeofenceFM extends CordovaPlugin {
                         String[] parts = id.split("\\|");
 
                         String idFence = parts[0] + "|" + parts[1];
-                        geofenceSingleton.addGeofence(latitud, longitud, radius, idFence);
+                        geofenceSingleton.addGeofence(latitud, longitud, radius, idFence);*/
                         geofenceSingleton.startGeofencing(cordova.getActivity());
 
                         final PluginResult result = new PluginResult(PluginResult.Status.OK,

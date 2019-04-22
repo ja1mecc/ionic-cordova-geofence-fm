@@ -64,6 +64,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         Log.i(TAG, "FenceTransition -> " + transitionType);
 
         if (transitionType == Geofence.GEOFENCE_TRANSITION_ENTER) {
+
             List<Geofence> triggerList = geofencingEvent.getTriggeringGeofences();
 
             for (Geofence fence : triggerList) {
@@ -107,68 +108,66 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
             }
         } else {
-            String error = "Geofence transition error: " + transitionType;
-            Log.e(TAG, error);
-        }
 
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(Constants.LOCATION_INTERVAL);
-        locationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            LocationRequest locationRequest = LocationRequest.create();
+            locationRequest.setInterval(Constants.LOCATION_INTERVAL);
+            locationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
+            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
 
-        Intent intentAction = new Intent(getApplicationContext(), GeofenceTransitionsIntentService.class);
-        intentAction.putExtra("action","STOP_SERVICE");
-        PendingIntent pIntentlogin = PendingIntent.getService(getApplicationContext(),1,intentAction,PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent intentAction = new Intent(getApplicationContext(), GeofenceTransitionsIntentService.class);
+            intentAction.putExtra("action", "STOP_SERVICE");
+            PendingIntent pIntentlogin = PendingIntent.getService(getApplicationContext(), 1, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.i(TAG, "Entro a uno -> **********");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Log.i(TAG, "Entro a uno -> **********");
 
-            String NOTIFICATION_CHANNEL_ID = "com.example.MiPlugin";
-            String channelName = "My Background Service";
-            NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
-            chan.setLightColor(Color.BLUE);
-            chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            assert manager != null;
-            manager.createNotificationChannel(chan);
+                String NOTIFICATION_CHANNEL_ID = "com.example.MiPlugin";
+                String channelName = "My Background Service";
+                NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+                chan.setLightColor(Color.BLUE);
+                chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+                NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                assert manager != null;
+                manager.createNotificationChannel(chan);
 
-            String packageName = getApplicationContext().getPackageName();
-            Intent resultIntent = getApplicationContext().getPackageManager()
-                    .getLaunchIntentForPackage(packageName);
-
-
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-            stackBuilder.addNextIntent(resultIntent);
-            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
-                    1, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-            Notification notification = notificationBuilder.setOngoing(true)
-                    .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
-                    .setContentTitle("App ejecutandose en segundo plano")
-                    .setPriority(NotificationManager.IMPORTANCE_MIN)
-                    .setCategory(Notification.CATEGORY_SERVICE)
-                    .setContentIntent(resultPendingIntent)
-                    .addAction(getApplicationContext().getApplicationInfo().icon,"APAGAR", pIntentlogin)
-                    .build();
+                String packageName = getApplicationContext().getPackageName();
+                Intent resultIntent = getApplicationContext().getPackageManager()
+                        .getLaunchIntentForPackage(packageName);
 
 
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                stackBuilder.addNextIntent(resultIntent);
+                PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+                        1, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            startForeground(1, notification);
+                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+                Notification notification = notificationBuilder.setOngoing(true)
+                        .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
+                        .setContentTitle("App ejecutandose en segundo plano")
+                        .setPriority(NotificationManager.IMPORTANCE_MIN)
+                        .setCategory(Notification.CATEGORY_SERVICE)
+                        .setContentIntent(resultPendingIntent)
+                        .addAction(getApplicationContext().getApplicationInfo().icon, "APAGAR", pIntentlogin)
+                        .build();
 
-        } else {
-            Log.i(TAG, "Entro a dos -> **********");
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                    .setContentTitle("App ejecutandose en segundo plano")
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .addAction(getApplicationContext().getApplicationInfo().icon,"APAGAR", pIntentlogin)
-                    .setAutoCancel(true);
 
-            Notification notification = builder.build();
+                startForeground(1, notification);
 
-            startForeground(1, notification);
+            } else {
+                Log.i(TAG, "Entro a dos -> **********");
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                        .setContentTitle("App ejecutandose en segundo plano")
+                        .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .addAction(getApplicationContext().getApplicationInfo().icon, "APAGAR", pIntentlogin)
+                        .setAutoCancel(true);
+
+                Notification notification = builder.build();
+
+                startForeground(1, notification);
+            }
         }
 
         return START_NOT_STICKY;
