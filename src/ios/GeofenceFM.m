@@ -21,7 +21,7 @@
 
     [self.locationManager startUpdatingLocation];
     
-    NSString* msg = [NSString stringWithFormat: @"success"];
+    NSString* msg = [NSString stringWithFormat: @"OK"];
     CDVPluginResult* result = [CDVPluginResult
                                resultWithStatus:CDVCommandStatus_OK
                                messageAsString:msg];
@@ -42,7 +42,7 @@
     
     [self.locationManager startMonitoringForRegion:bridge];
     
-    NSString* msg = [NSString stringWithFormat: @"success"];
+    NSString* msg = [NSString stringWithFormat: @"OK"];
     CDVPluginResult* result = [CDVPluginResult
                                resultWithStatus:CDVCommandStatus_OK
                                messageAsString:msg];
