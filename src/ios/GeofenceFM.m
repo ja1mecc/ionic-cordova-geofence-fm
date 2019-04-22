@@ -31,16 +31,21 @@
 
 - (void)addOrUpdateFence:(CDVInvokedUrlCommand*)command
 {
-    NSMutableDictionary* options = [command.arguments objectAtIndex:0];
-    double latitud = [[options objectForKey:@"latitud"] doubleValue];
-    double longitud = [[options objectForKey:@"longitud"] doubleValue];
-    double radius = [[options objectForKey:@"radius"] doubleValue];
-    NSString* _id = [options objectForKey:@"id"];
+    NSArray* array = [command.arguments objectAtIndex:0];
     
-    CLLocationCoordinate2D center = CLLocationCoordinate2DMake(latitud, longitud);
-    CLRegion *bridge = [[CLCircularRegion alloc]initWithCenter:center radius:radius identifier:_id];
-    
-    [self.locationManager startMonitoringForRegion:bridge];
+    for (id object in array) {
+        
+        NSMutableDictionary* options = object;
+        double latitud = [[options objectForKey:@"latitud"] doubleValue];
+        double longitud = [[options objectForKey:@"longitud"] doubleValue];
+        double radius = [[options objectForKey:@"radius"] doubleValue];
+        NSString* _id = [options objectForKey:@"id"];
+        
+        CLLocationCoordinate2D center = CLLocationCoordinate2DMake(latitud, longitud);
+        CLRegion *bridge = [[CLCircularRegion alloc]initWithCenter:center radius:radius identifier:_id];
+        
+        [self.locationManager startMonitoringForRegion:bridge];
+    }
     
     NSString* msg = [NSString stringWithFormat: @"OK"];
     CDVPluginResult* result = [CDVPluginResult
@@ -72,8 +77,7 @@
 
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-      didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
+- (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
     
     if (state == CLRegionStateInside){
         
