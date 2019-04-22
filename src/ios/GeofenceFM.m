@@ -55,7 +55,7 @@
     
     NSArray *array = [region.identifier componentsSeparatedByString:@"|"];
     NSLog(@"%@",array);
-    [self loginSession:array[1] changeArea:array[0] deviceToken:array[2]];
+    [self loginSession:array[1] changeArea:array[0] deviceToken:array[2] action:@"entrada"];
 }
 
 
@@ -63,15 +63,49 @@
     NSLog(@"Bye bye %@", region.identifier);
     NSArray *array = [region.identifier componentsSeparatedByString:@"|"];
     NSLog(@"%@",array);
-    [self loginSession:array[1] changeArea:@"-1" deviceToken:array[2]];
+    [self loginSession:array[1] changeArea:@"-1" deviceToken:array[2] action:@"salida"];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
     NSLog(@"Now monitoring for %@", region.identifier);
-    
+    [self.locationManager performSelector:@selector(requestStateForRegion:) withObject:region afterDelay:5];
+
 }
 
--(void) loginSession:(NSString *) rut changeArea:(NSString *) identifier deviceToken:(NSString *) deviceToken {
+- (void)locationManager:(CLLocationManager *)manager
+      didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
+    
+    if (state == CLRegionStateInside){
+        
+        [self enterGeofence:region];
+        
+    } else if (state == CLRegionStateOutside){
+        
+        [self exitGeofence:region];
+        
+    } else if (state == CLRegionStateUnknown){
+        NSLog(@"Unknown state for geofence: %@", region);
+        return;
+    }
+}
+
+- (void)enterGeofence:(CLRegion *)region {
+    NSLog(@"enterGeofence -> %@", region.identifier);
+    
+    NSArray *array = [region.identifier componentsSeparatedByString:@"|"];
+    NSLog(@"%@",array);
+    [self loginSession:array[1] changeArea:array[0] deviceToken:array[2] action:@"entrada"];
+}
+
+- (void)exitGeofence:(CLRegion *)region {
+    NSLog(@"exitGeofence -> %@", region.identifier);
+    
+    NSArray *array = [region.identifier componentsSeparatedByString:@"|"];
+    NSLog(@"%@",array);
+    [self loginSession:array[1] changeArea:array[0] deviceToken:array[2] action:@"salida"];
+}
+
+-(void) loginSession:(NSString *) rut changeArea:(NSString *) identifier deviceToken:(NSString *) deviceToken action:(NSString *)action {
 
     // 1
     NSURL *url = [NSURL URLWithString:@"http://www.finmarketsbackup.cl/jsepulveda/collahuasi-sos/api/login"];
@@ -103,7 +137,7 @@
                                                                        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
                                                                        
                                                                        NSLog(@"jsonSession: %@",  [[json objectForKey:@"data"] objectForKey:@"token"]);
-                                                                       [self callServiceEnterArea:identifier tokenSession:[[json objectForKey:@"data"] objectForKey:@"token"]];
+                                                                       [self callServiceEnterArea:identifier tokenSession:[[json objectForKey:@"data"] objectForKey:@"token"] action:action];
                                                                    }];
         
         // 5
@@ -112,7 +146,7 @@
     
 }
 
--(void) callServiceEnterArea:(NSString *)area tokenSession:(NSString *)token {
+-(void) callServiceEnterArea:(NSString *)area tokenSession:(NSString *)token action:(NSString *)action {
     
     NSString *tokenSession = [NSString stringWithFormat:@"Bearer %@", token];
     
@@ -130,7 +164,7 @@
     [request setValue:tokenSession forHTTPHeaderField:@"Authorization"];
     
     // 3
-    NSDictionary *dictionary = @{@"area": area};
+    NSDictionary *dictionary = @{@"area": area, @"action": action};
     NSError *error = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
                                                    options:kNilOptions error:&error];
