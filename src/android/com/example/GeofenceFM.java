@@ -82,16 +82,6 @@ public class GeofenceFM extends CordovaPlugin {
                             geofenceSingleton.addGeofence(latitud, longitud, radius, idFence);
                         }
 
-/*
-                        String id = args.optJSONObject(0).optString("id");
-                        double latitud = args.optJSONObject(0).optDouble("latitud");
-                        double longitud = args.optJSONObject(0).optDouble("longitud");
-                        int radius = args.optJSONObject(0).optInt("radius");
-
-                        String[] parts = id.split("\\|");
-
-                        String idFence = parts[0] + "|" + parts[1];
-                        geofenceSingleton.addGeofence(latitud, longitud, radius, idFence);*/
                         geofenceSingleton.startGeofencing(cordova.getActivity());
 
                         final PluginResult result = new PluginResult(PluginResult.Status.OK,
