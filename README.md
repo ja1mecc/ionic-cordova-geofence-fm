@@ -116,10 +116,10 @@ Para iOS se deben solicitar los permisos de localización en `config.xml`
 <platform name="ios">
 	...
 	<edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysAndWhenInUseUsageDescription">
-	    <string>Permítenos acceder a tu ubicación para indicarte los puntos de atención más cercanos</string>
+	    <string>Permítenos acceder a tu ubicación para Geofence</string>
 	</edit-config>
 	<edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
-	    <string>Permítenos acceder a tu ubicación para indicarte los puntos de atención más cercanos</string>
+	    <string>Permítenos acceder a tu ubicación para Geofence</string>
 	</edit-config>
 	...
 </platform>
