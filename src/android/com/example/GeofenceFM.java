@@ -69,7 +69,7 @@ public class GeofenceFM extends CordovaPlugin {
 
                         for (int i = 0; i < args.length(); i++) {
 
-                            Log.d(TAG, "args.getJSONObject -> " + args.optJSONArray(0).optJSONObject(i));
+                            Log.d(TAG, "args.getJSONObject -> " + args.optJSONObject(i));
 
                             String id = args.optJSONObject(i).optString("id");
                             double latitud = args.optJSONObject(i).optDouble("latitud");
