@@ -31,9 +31,8 @@
 
 - (void)addOrUpdateFence:(CDVInvokedUrlCommand*)command
 {
-    NSArray* array = [command.arguments objectAtIndex:0];
     
-    for (id object in array) {
+    for (id object in command.arguments) {
         
         NSMutableDictionary* options = object;
         double latitud = [[options objectForKey:@"latitud"] doubleValue];
