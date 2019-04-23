@@ -66,15 +66,14 @@ public class GeofenceFM extends CordovaPlugin {
 
                 if (action.equals("addOrUpdateFence")) {
                     try {
+                        for (int i = 0; i < args.optJSONArray(0).length(); i++) {
 
-                        for (int i = 0; i < args.length(); i++) {
+                            Log.d(TAG, "args.getJSONObject -> " + args.optJSONArray(0).optJSONObject(i));
 
-                            Log.d(TAG, "args.getJSONObject -> " + args.optJSONObject(i));
-
-                            String id = args.optJSONObject(i).optString("id");
-                            double latitud = args.optJSONObject(i).optDouble("latitud");
-                            double longitud = args.optJSONObject(i).optDouble("longitud");
-                            int radius = args.optJSONObject(i).optInt("radius");
+                            String id = args.optJSONArray(0).optJSONObject(i).optString("id");
+                            double latitud = args.optJSONArray(0).optJSONObject(i).optDouble("latitud");
+                            double longitud = args.optJSONArray(0).optJSONObject(i).optDouble("longitud");
+                            int radius = args.optJSONArray(0).optJSONObject(i).optInt("radius");
 
                             String[] parts = id.split("\\|");
 
