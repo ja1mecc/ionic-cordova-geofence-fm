@@ -36,7 +36,7 @@ export class GeofenceFmService extends IonicNativePlugin {
 
   addOrUpdateFence(args: any): Promise<any> { 
     console.log(JSON.stringify(args));
-    return cordova(this, 'addOrUpdateFence', {}, [args]);
+    return cordova(this, 'addOrUpdateFence', {}, args);
  }
   
 }
@@ -89,14 +89,22 @@ export class HomePage {
 
 	this.platform.ready().then(() => {
 		geofenceFmService.init().then((data) => {
-			if(data == "OK")
-				geofenceFmService.addOrUpdateFence({
+			if(data == "OK") {
+				let fence = [{
+				    id: { id } + "|" + { rut } + "|" + { tokenDevice },
+				    latitud: -34.3984827,
+				    longitud: -71.5739585,
+				    radius: 200
+				},
+				{
 				    id: { id } + "|" + { rut } + "|" + { tokenDevice },
 				    latitud: -33.3984827,
 				    longitud: -70.5739585,
 				    radius: 200
-				});
-
+				}];
+				
+				geofenceFmService.addOrUpdateFence(fence);
+			}
 		}).catch((error) => {
 			console.log('Error geoFence Finmarkets -> ' + error);
 		});
