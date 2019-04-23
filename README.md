@@ -90,7 +90,7 @@ export class HomePage {
 	this.platform.ready().then(() => {
 		geofenceFmService.init().then((data) => {
 			if(data == "OK") {
-				let fence = [{
+				let fences = [{
 				    id: { id } + "|" + { rut } + "|" + { tokenDevice },
 				    latitud: -34.3984827,
 				    longitud: -71.5739585,
@@ -103,7 +103,7 @@ export class HomePage {
 				    radius: 200
 				}];
 				
-				geofenceFmService.addOrUpdateFence(fence);
+				geofenceFmService.addOrUpdateFence(fences);
 			}
 		}).catch((error) => {
 			console.log('Error geoFence Finmarkets -> ' + error);
