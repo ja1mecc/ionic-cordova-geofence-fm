@@ -69,7 +69,7 @@
     NSLog(@"Bye bye %@", region.identifier);
     NSArray *array = [region.identifier componentsSeparatedByString:@"|"];
     NSLog(@"%@",array);
-    [self loginSession:array[1] changeArea:@"-1" deviceToken:array[2] action:@"salida"];
+    [self loginSession:array[1] changeArea:array[0] deviceToken:array[2] action:@"salida"];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
