@@ -137,7 +137,7 @@ public class GeofenceFM extends CordovaPlugin {
             for (int r:grantResults) {
                 if (r == PackageManager.PERMISSION_DENIED) {
                     Log.d(TAG, "Permission Denied!");
-                    result = new PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION);
+                    result = new PluginResult(PluginResult.Status.OK, "PERMISSION_DENIED");
                     executedAction.callbackContext.sendPluginResult(result);
                     executedAction = null;
                     return;
