@@ -10,23 +10,63 @@
 - (void)init:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"init -> GeofenceFM");
-    self.callbackId = command.callbackId;
+    self.command = command;
     
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager setDelegate:self];
 
     if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
         [self.locationManager requestAlwaysAuthorization];
+    } else {
+        [self.locationManager startUpdatingLocation];
+        
+        NSString* msg = [NSString stringWithFormat: @"OK"];
+        CDVPluginResult* result = [CDVPluginResult
+                                   resultWithStatus:CDVCommandStatus_OK
+                                   messageAsString:msg];
+        
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }
+}
 
-    [self.locationManager startUpdatingLocation];
-    
-    NSString* msg = [NSString stringWithFormat: @"OK"];
-    CDVPluginResult* result = [CDVPluginResult
-                               resultWithStatus:CDVCommandStatus_OK
-                               messageAsString:msg];
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    NSLog(@"Callback");
+    if (status == kCLAuthorizationStatusAuthorizedAlways) {
+        NSLog(@"Authorized kCLAuthorizationStatusAuthorizedAlways");
+        
+        [self.locationManager startUpdatingLocation];
+        
+        NSString* msg = [NSString stringWithFormat: @"OK"];
+        CDVPluginResult* result = [CDVPluginResult
+                                   resultWithStatus:CDVCommandStatus_OK
+                                   messageAsString:msg];
+        
+        [self.commandDelegate sendPluginResult:result callbackId:self.command.callbackId];
+        
+    } else if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        NSLog(@"Authorized kCLAuthorizationStatusAuthorizedWhenInUse");
 
-    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        [self.locationManager startUpdatingLocation];
+        
+        NSString* msg = [NSString stringWithFormat: @"PERMISSION_PARTIAL"];
+        CDVPluginResult* result = [CDVPluginResult
+                                   resultWithStatus:CDVCommandStatus_OK
+                                   messageAsString:msg];
+        
+        [self.commandDelegate sendPluginResult:result callbackId:self.command.callbackId];
+        
+    } else if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
+        NSLog(@"Denied");
+        
+        [self.locationManager startUpdatingLocation];
+        
+        NSString* msg = [NSString stringWithFormat: @"PERMISSION_DENIED"];
+        CDVPluginResult* result = [CDVPluginResult
+                                   resultWithStatus:CDVCommandStatus_OK
+                                   messageAsString:msg];
+        
+        [self.commandDelegate sendPluginResult:result callbackId:self.command.callbackId];
+    }
 }
 
 - (void)addOrUpdateFence:(CDVInvokedUrlCommand*)command
