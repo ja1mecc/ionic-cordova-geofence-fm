@@ -57,24 +57,17 @@
 }
 
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
-    NSLog(@"Welcome to %@", region.identifier);
     
-    NSArray *array = [region.identifier componentsSeparatedByString:@"|"];
-    NSLog(@"%@",array);
-    [self loginSession:array[1] changeArea:array[0] deviceToken:array[2] action:@"entrada"];
 }
 
 
 -(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
-    NSLog(@"Bye bye %@", region.identifier);
-    NSArray *array = [region.identifier componentsSeparatedByString:@"|"];
-    NSLog(@"%@",array);
-    [self loginSession:array[1] changeArea:array[0] deviceToken:array[2] action:@"salida"];
+    
 }
 
 -(void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
     NSLog(@"Now monitoring for %@", region.identifier);
-    [self.locationManager performSelector:@selector(requestStateForRegion:) withObject:region afterDelay:5];
+    [self.locationManager performSelector:@selector(requestStateForRegion:) withObject:region afterDelay:2];
 
 }
 
