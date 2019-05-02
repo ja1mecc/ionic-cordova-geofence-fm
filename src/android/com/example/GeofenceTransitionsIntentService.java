@@ -59,11 +59,14 @@ public class GeofenceTransitionsIntentService extends IntentService {
             Log.e(TAG, "Error in geofencing event");
             return START_NOT_STICKY;
         }
+        Intent broadcastIntent = new Intent("com.example.ACTION_RECEIVE_GEOFENCE");
 
-        sendBroadcast(intent);
 
         int transitionType = geofencingEvent.getGeofenceTransition();
         Log.i(TAG, "FenceTransition -> " + transitionType);
+
+        broadcastIntent.putExtra("transitionType", transitionType);
+        sendBroadcast(broadcastIntent);
 
         if (transitionType == Geofence.GEOFENCE_TRANSITION_ENTER) {
 
@@ -111,10 +114,10 @@ public class GeofenceTransitionsIntentService extends IntentService {
             }
         } else {
 
-            // LocationRequest locationRequest = LocationRequest.create();
-            // locationRequest.setInterval(Constants.LOCATION_INTERVAL);
-            // locationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
-            // locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//            LocationRequest locationRequest = LocationRequest.create();
+//            locationRequest.setInterval(Constants.LOCATION_INTERVAL);
+//            locationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
+//            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
 
             Intent intentAction = new Intent(getApplicationContext(), GeofenceTransitionsIntentService.class);

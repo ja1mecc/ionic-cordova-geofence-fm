@@ -126,6 +126,7 @@ public class GeofenceSingleton {
                                     public void onSuccess(Void aVoid) {
                                         // your success code
                                         Log.d(TAG, "YO LOCAL");
+                                        initLocationRequest();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -139,36 +140,37 @@ public class GeofenceSingleton {
                         }
                     });
 
-            LocationRequest locationRequest = LocationRequest.create();
-            locationRequest.setInterval(Constants.LOCATION_INTERVAL);
-            locationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-            LocationCallback mLocationCallback = new LocationCallback() {
-                @Override
-                public void onLocationResult(LocationResult locationResult) {
-                    for (Location location : locationResult.getLocations()) {
-                        // Update UI with location data
-                        Log.d(TAG, "Geofencing Latitude NOW -> " + String.valueOf(location.getLatitude()));
-                        Log.d(TAG, "Geofencing Longitude NOW -> " + String.valueOf(location.getLongitude()));
-                    }
-                }
-            };
-
-            Handler mHandler = new Handler(getMainLooper());
-            mHandler.post(new Runnable() {
-                              @Override
-                              public void run() {
-                    if (checkPermission())
-                        mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, null);
-                    Log.d(TAG, "FusedLocationClient requestLocationUpdates");
-                }
-            });
-
-
         } else {
             Log.d(TAG, "Not permissions");
         }
+    }
+
+    private void initLocationRequest() {
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(Constants.LOCATION_INTERVAL);
+        locationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationCallback mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                for (Location location : locationResult.getLocations()) {
+                    // Update UI with location data
+                    Log.d(TAG, "Geofencing Latitude NOW -> " + String.valueOf(location.getLatitude()));
+                    Log.d(TAG, "Geofencing Longitude NOW -> " + String.valueOf(location.getLongitude()));
+                }
+            }
+        };
+
+        Handler mHandler = new Handler(getMainLooper());
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (checkPermission())
+                    mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, null);
+                Log.d(TAG, "FusedLocationClient requestLocationUpdates");
+            }
+        });
     }
 
     // Check for permission to access Location
