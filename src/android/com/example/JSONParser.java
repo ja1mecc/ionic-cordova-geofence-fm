@@ -32,7 +32,7 @@ public class JSONParser {
     private void loginSession(String area, String rut, String clave, String action) {
         StringBuilder sb = new StringBuilder();
 
-        String http = "http://www.finmarketsbackup.cl/jsepulveda/collahuasi-sos/api/login";
+        String http = "http://collahuasi-sos.show.finmarketslive.cl/api/login";
 
 
         HttpURLConnection urlConnection = null;
@@ -96,7 +96,7 @@ public class JSONParser {
     private void proceso(String token, String area, String action) {
         StringBuilder sb = new StringBuilder();
 
-        String http = "http://www.finmarketsbackup.cl/jsepulveda/collahuasi-sos/api/user/updatearea";
+        String http = "http://collahuasi-sos.show.finmarketslive.cl/api/user/updatearea";
 
 
         HttpURLConnection urlConnection = null;

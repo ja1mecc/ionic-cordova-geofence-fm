@@ -35,7 +35,7 @@ import java.util.List;
 import static android.os.Looper.getMainLooper;
 
 public class GeofenceSingleton {
-    public static final String TAG = "GeofenceFM";
+    public static final String TAG = "GeofenceSingleton";
 
     private Context appContext;
     private static final String ERR_MSG = "Application Context is not set!! " +
@@ -98,8 +98,11 @@ public class GeofenceSingleton {
         }
 
         Log.d(TAG, "mGeofencePendingIntent non-nulo");
-        Intent intent = new Intent(appContext, GeofenceTransitionsIntentService.class);
-        mGeofencePendingIntent = PendingIntent.getService(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(appContext, BootReceiver.class);
+        mGeofencePendingIntent = PendingIntent.getBroadcast(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Intent intent = new Intent(appContext, GeofenceTransitionsIntentService.class);
+        //mGeofencePendingIntent = PendingIntent.getService(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return mGeofencePendingIntent;
     }
 

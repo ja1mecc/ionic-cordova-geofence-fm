@@ -60,6 +60,8 @@ public class GeofenceTransitionsIntentService extends IntentService {
             return START_NOT_STICKY;
         }
 
+        sendBroadcast(intent);
+
         int transitionType = geofencingEvent.getGeofenceTransition();
         Log.i(TAG, "FenceTransition -> " + transitionType);
 
@@ -109,10 +111,10 @@ public class GeofenceTransitionsIntentService extends IntentService {
             }
         } else {
 
-            LocationRequest locationRequest = LocationRequest.create();
-            locationRequest.setInterval(Constants.LOCATION_INTERVAL);
-            locationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            // LocationRequest locationRequest = LocationRequest.create();
+            // locationRequest.setInterval(Constants.LOCATION_INTERVAL);
+            // locationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
+            // locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
 
             Intent intentAction = new Intent(getApplicationContext(), GeofenceTransitionsIntentService.class);
