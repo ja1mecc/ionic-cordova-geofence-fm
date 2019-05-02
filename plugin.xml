@@ -36,6 +36,14 @@
             <service android:name="com.example.GeofenceTransitionsIntentService" />
         </config-file>
 
+      <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <receiver android:name="com.example.BootReceiver">
+          <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+          </intent-filter>
+        </receiver>
+      </config-file>
+
       <framework src='com.google.android.gms:play-services-location:11.6.2' />
       <framework src="com.google.firebase:firebase-messaging:11.6.2"/>
       <dependency id="cordova-support-google-services" version="~1.1.0"/>
@@ -45,6 +53,7 @@
       <source-file src="src/android/com/example/GeofenceTransitionsIntentService.java" target-dir="src/com/example/" />
       <source-file src="src/android/com/example/JSONParser.java" target-dir="src/com/example/" />
       <source-file src="src/android/com/example/Constants.java" target-dir="src/com/example/" />
+      <source-file src="src/android/com/example/BootReceiver.java" target-dir="src/com/example/" />
       
     </platform>
 
