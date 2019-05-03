@@ -8,4 +8,7 @@ module.exports = {
   addOrUpdateFence: function addOrUpdateFence(data, successCallback, errorCallback){
     exec(successCallback, errorCallback, 'GeofenceFM', "addOrUpdateFence", [data]);
   },
+  removeAllFences: function removeAllFences(successCallback, errorCallback){
+    exec(successCallback, errorCallback, 'GeofenceFM', "removeAllFences", []);
+  }
 };
