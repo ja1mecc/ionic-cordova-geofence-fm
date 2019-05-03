@@ -8,6 +8,9 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
@@ -21,6 +24,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.List;
+
+import io.ionic.finmarkets.R;
 
 public class GeofenceTransitionsIntentService extends IntentService {
 
@@ -125,8 +130,11 @@ public class GeofenceTransitionsIntentService extends IntentService {
             PendingIntent pIntentlogin = PendingIntent.getService(getApplicationContext(), 1, intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
+            Log.i(TAG, "Build.VERSION_CODES.LOLLIPOP -> " + Build.VERSION_CODES.LOLLIPOP);
+            Log.i(TAG, "Build.VERSION_CODES.O -> " + Build.VERSION_CODES.O);
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Log.i(TAG, "Entro a uno -> **********");
+                Log.i(TAG, "Entro a uno -> ********** -> " + Build.VERSION.SDK_INT);
 
                 String NOTIFICATION_CHANNEL_ID = "com.example.MiPlugin";
                 String channelName = "My Background Service";
@@ -149,24 +157,27 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
                 NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
                 Notification notification = notificationBuilder.setOngoing(true)
-                        .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
+                        .setSmallIcon(getResIdForDrawable("notification_icon"))
+                        .setSmallIcon(getResIdForDrawable("notification_icon_large"))
+                        .setColor(NotificationCompat.COLOR_DEFAULT)
                         .setContentTitle("App ejecutandose en segundo plano")
                         .setPriority(NotificationManager.IMPORTANCE_MIN)
                         .setCategory(Notification.CATEGORY_SERVICE)
                         .setContentIntent(resultPendingIntent)
-                        .addAction(getApplicationContext().getApplicationInfo().icon, "APAGAR", pIntentlogin)
+                        .addAction(getResIdForDrawable("notification_icon"), "APAGAR", pIntentlogin)
                         .build();
 
 
                 startForeground(1, notification);
 
             } else {
-                Log.i(TAG, "Entro a dos -> **********");
+                Log.i(TAG, "Entro a dos -> ********** -> " + Build.VERSION.SDK_INT);
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                         .setContentTitle("App ejecutandose en segundo plano")
-                        .setSmallIcon(getApplicationContext().getApplicationInfo().icon)
+                        .setSmallIcon(getResIdForDrawable("notification_icon"))
+                        .setSmallIcon(getResIdForDrawable("notification_icon_large"))
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                        .addAction(getApplicationContext().getApplicationInfo().icon, "APAGAR", pIntentlogin)
+                        .addAction(getResIdForDrawable("icon"), "APAGAR", pIntentlogin)
                         .setAutoCancel(true);
 
                 Notification notification = builder.build();
@@ -178,4 +189,61 @@ public class GeofenceTransitionsIntentService extends IntentService {
         return START_NOT_STICKY;
     }
 
+    int getResIdForDrawable(String resPath) {
+        int resId = getResIdForDrawable(getPkgName(), resPath);
+
+        if (resId == 0) {
+            resId = getResIdForDrawable("android", resPath);
+        }
+
+        return resId;
+    }
+
+    int getResIdForDrawable(String clsName, String resPath) {
+        String drawable = extractResourceName(resPath);
+        int resId = 0;
+
+        try {
+            Class<?> cls  = Class.forName(clsName + ".R$drawable");
+
+            resId = (Integer) cls.getDeclaredField(drawable).get(Integer.class);
+        } catch (Exception ignore) {}
+
+        return resId;
+    }
+
+    private String extractResourceName (String resPath) {
+        String drawable = resPath;
+
+        if (drawable.contains("/")) {
+            drawable = drawable.substring(drawable.lastIndexOf('/') + 1);
+        }
+
+        if (resPath.contains(".")) {
+            drawable = drawable.substring(0, drawable.lastIndexOf('.'));
+        }
+
+        return drawable;
+    }
+
+    private String getPkgName () {
+        return getApplicationContext().getPackageName();
+    }
+
+    Bitmap getIconFromDrawable (String drawable) {
+        Resources res = getApplicationContext().getResources();
+        int iconId;
+
+        iconId = getResIdForDrawable(getPkgName(), drawable);
+
+        if (iconId == 0) {
+            iconId = getResIdForDrawable("android", drawable);
+        }
+
+        if (iconId == 0) {
+            iconId = android.R.drawable.ic_menu_info_details;
+        }
+
+        return BitmapFactory.decodeResource(res, iconId);
+    }
 }
