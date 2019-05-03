@@ -95,7 +95,7 @@ public class GeofenceFM extends CordovaPlugin {
 
                 if (action.equals("removeAllFences")) {
                     try {
-                        Log.e(TAG, "removeAllFences");
+                        Log.d(TAG, "removeAllFences");
                         geofenceSingleton.removeGeofence();
                         final PluginResult result = new PluginResult(PluginResult.Status.OK);
                         callbackContext.sendPluginResult(result);
