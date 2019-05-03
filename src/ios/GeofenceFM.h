@@ -9,6 +9,7 @@
 // Encabezados de las funciones del plugin
 - (void) init:(CDVInvokedUrlCommand*)command;
 - (void) addOrUpdateFence:(CDVInvokedUrlCommand*)command;
+- (void) removeAllFences:(CDVInvokedUrlCommand*)command;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CDVInvokedUrlCommand *command;

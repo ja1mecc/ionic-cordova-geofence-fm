@@ -71,7 +71,7 @@
 
 - (void)addOrUpdateFence:(CDVInvokedUrlCommand*)command
 {
-    
+    NSLog(@"addOrUpdateFence -> GeofenceFM");
     NSArray* array = [command.arguments objectAtIndex:0];
     
     for (id object in array) {
@@ -94,6 +94,13 @@
                                messageAsString:msg];
     
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+}
+
+- (void)removeAllFences:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"removeAllFences -> GeofenceFM");
+    for (CLRegion *monitored in [self.locationManager monitoredRegions])
+        [self.locationManager stopMonitoringForRegion:monitored];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
@@ -146,7 +153,7 @@
 -(void) loginSession:(NSString *) rut changeArea:(NSString *) identifier deviceToken:(NSString *) deviceToken action:(NSString *)action {
 
     // 1
-    NSURL *url = [NSURL URLWithString:@"http://www.finmarketsbackup.cl/jsepulveda/collahuasi-sos/api/login"];
+    NSURL *url = [NSURL URLWithString:@"http://collahuasi-sos.show.finmarketslive.cl/api/login"];
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     
@@ -189,7 +196,7 @@
     NSString *tokenSession = [NSString stringWithFormat:@"Bearer %@", token];
     
     // 1
-    NSURL *url = [NSURL URLWithString:@"http://www.finmarketsbackup.cl/jsepulveda/collahuasi-sos/api/user/updatearea"];
+    NSURL *url = [NSURL URLWithString:@"http://collahuasi-sos.show.finmarketslive.cl/api/user/updatearea"];
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     
