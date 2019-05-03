@@ -83,8 +83,7 @@ public class GeofenceFM extends CordovaPlugin {
 
                         geofenceSingleton.startGeofencing(cordova.getActivity());
 
-                        final PluginResult result = new PluginResult(PluginResult.Status.OK,
-                                "Hola todo addOrUpdateFence... ");
+                        final PluginResult result = new PluginResult(PluginResult.Status.OK);
                         callbackContext.sendPluginResult(result);
 
                     } catch (Exception e) {
@@ -94,6 +93,17 @@ public class GeofenceFM extends CordovaPlugin {
                     }
                 }
 
+                if (action.equals("removeAllFences")) {
+                    try {
+                        Log.e(TAG, "removeAllFences");
+                        geofenceSingleton.removeGeofence();
+                        final PluginResult result = new PluginResult(PluginResult.Status.OK);
+                        callbackContext.sendPluginResult(result);
+                    } catch (Exception e) {
+                        Log.e(TAG, "removeAllFences: Error " + e.getMessage());
+                        callbackContext.error(e.getMessage());
+                    }
+                }
             }
         });
         return true;
