@@ -10,6 +10,7 @@
 - (void) init:(CDVInvokedUrlCommand*)command;
 - (void) addOrUpdateFence:(CDVInvokedUrlCommand*)command;
 - (void) removeAllFences:(CDVInvokedUrlCommand*)command;
+- (void) getScreenSize:(CDVInvokedUrlCommand*)command;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CDVInvokedUrlCommand *command;
