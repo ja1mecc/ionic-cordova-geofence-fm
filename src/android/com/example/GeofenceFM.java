@@ -10,8 +10,11 @@ import org.apache.cordova.PermissionHelper;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.Manifest;
+
+import android.app.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +24,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.provider.Settings;
 import android.util.Log;
+import android.util.DisplayMetrics;
 
 import java.io.IOException;
 
