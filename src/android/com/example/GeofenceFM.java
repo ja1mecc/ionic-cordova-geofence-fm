@@ -112,7 +112,7 @@ public class GeofenceFM extends CordovaPlugin {
                 if (action.equals("getScreenSize")) {
                     Log.d(TAG, "getScreenSize");
                     DisplayMetrics dm = new DisplayMetrics();
-                    this.cordova.getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+                    cordova.getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 
                     int width = dm.widthPixels;
                     int height = dm.heightPixels;
