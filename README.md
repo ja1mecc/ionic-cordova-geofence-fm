@@ -42,10 +42,6 @@ export class GeofenceFmService extends IonicNativePlugin {
     return cordova(this, 'removeAllFences', {}, []);
   }
   
-  getScreenSize(): Promise<any> { 
-    return cordova(this, 'getScreenSize', {}, []);
-  }
-  
 }
 ```
 
