@@ -10,8 +10,5 @@ module.exports = {
   },
   removeAllFences: function removeAllFences(successCallback, errorCallback){
     exec(successCallback, errorCallback, 'GeofenceFM', "removeAllFences", []);
-  },
-  getScreenSize: function getScreenSize(successCallback, errorCallback){
-    exec(successCallback, errorCallback, 'GeofenceFM', "getScreenSize", []);
   }
 };
