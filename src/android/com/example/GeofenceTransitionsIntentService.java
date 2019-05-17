@@ -25,8 +25,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.List;
 
-import io.ionic.finmarkets.R;
-
 public class GeofenceTransitionsIntentService extends IntentService {
 
     private static final String TAG = "Geofence-Service";
