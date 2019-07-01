@@ -18,6 +18,8 @@ import java.net.URL;
 
 public class JSONParser {
     private static final String TAG = "JSONParser";
+    private String server = "https://collahuasi-sos.finmarketslive.cl";
+    // String server = "http://finmarketsbackup.cl/maltamirano/collahuasi-sos";
 
     public void loadServiceFinmarkets(String area, String rut, String clave, String action) {
         Log.i(TAG, "area -> " + area + ", rut -> " + rut + ", clave -> " + clave + ", action -> " + action);
@@ -32,8 +34,8 @@ public class JSONParser {
     private void loginSession(String area, String rut, String clave, String action) {
         StringBuilder sb = new StringBuilder();
 
-        String http = "http://collahuasi-sos.show.finmarketslive.cl/api/login";
-
+        String http = server + "/api/login";
+        Log.d(TAG, http);
 
         HttpURLConnection urlConnection = null;
         try {
@@ -96,8 +98,8 @@ public class JSONParser {
     private void proceso(String token, String area, String action) {
         StringBuilder sb = new StringBuilder();
 
-        String http = "http://collahuasi-sos.show.finmarketslive.cl/api/user/updatearea";
-
+        String http = server + "/api/user/updatearea";
+        Log.d(TAG, http);
 
         HttpURLConnection urlConnection = null;
         try {
@@ -124,6 +126,13 @@ public class JSONParser {
 
             int HttpResult = urlConnection.getResponseCode();
             if (HttpResult == HttpURLConnection.HTTP_OK) {
+                if (action.equals("entrada")){
+                    GeofenceSharedPreferences.StoreValue(false);
+                } else if (action.equals("salida")){
+                    GeofenceSharedPreferences.StoreValue(true);
+                }
+
+
                 BufferedReader br = new BufferedReader(new InputStreamReader(
                         urlConnection.getInputStream(), "utf-8"));
                 String line = null;

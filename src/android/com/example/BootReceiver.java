@@ -21,7 +21,7 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, final Intent intent) {
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         //Do whatever you did in your Service handleIntent function here.
-        Log.d(TAG, "BootReceiver -> onReceive -> " + geofencingEvent.getGeofenceTransition());
+        Log.i(TAG, "BootReceiver -> onReceive -> " + geofencingEvent.getGeofenceTransition());
 
         int transitionType = geofencingEvent.getGeofenceTransition();
         Log.i(TAG, "FenceTransition -> " + transitionType);

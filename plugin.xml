@@ -32,21 +32,8 @@
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <service android:name="com.example.GeofenceTransitionsIntentService"
-                android:exported="true"
-                android:enabled="true">
-                <intent-filter >
-                    <action android:name="com.example.ACTION_RECEIVE_GEOFENCE"/>
-                </intent-filter>
-            </service>
-        </config-file>
-
       <config-file target="AndroidManifest.xml" parent="/manifest/application">
         <receiver android:name="com.example.BootReceiver">
-          <intent-filter>
-            <action android:name="android.intent.action.BOOT_COMPLETED" />
-          </intent-filter>
         </receiver>
       </config-file>
 
@@ -56,11 +43,12 @@
         
       <source-file src="src/android/com/example/GeofenceFM.java" target-dir="src/com/example/" />
       <source-file src="src/android/com/example/GeofenceSingleton.java" target-dir="src/com/example/" />
-      <source-file src="src/android/com/example/GeofenceTransitionsIntentService.java" target-dir="src/com/example/" />
       <source-file src="src/android/com/example/JSONParser.java" target-dir="src/com/example/" />
       <source-file src="src/android/com/example/Constants.java" target-dir="src/com/example/" />
       <source-file src="src/android/com/example/BootReceiver.java" target-dir="src/com/example/" />
-      
+      <source-file src="src/android/com/example/GeofenceSharedPreferences.java" target-dir="src/com/example/" />
+      <source-file src="src/android/com/example/GeoDistanceCalculator.java" target-dir="src/com/example/" />
+
     </platform>
 
     <!-- ios -->

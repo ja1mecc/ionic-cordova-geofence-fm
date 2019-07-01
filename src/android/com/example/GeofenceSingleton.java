@@ -9,11 +9,13 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -28,6 +30,8 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +45,7 @@ public class GeofenceSingleton {
     private static final String ERR_MSG = "Application Context is not set!! " +
             "Please call GeofenceSngleton.init() with proper application context";
     private PendingIntent mGeofencePendingIntent;
-    private static ArrayList<Geofence> mGeofenceList;
+    private static ArrayList<GeoDistanceCalculator.GeofenceWrapper> mGeofenceList;
     private GeofencingClient geofencingClient;
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -50,43 +54,32 @@ public class GeofenceSingleton {
             throw new IllegalStateException(ERR_MSG);
 
         appContext = activity.getApplicationContext();
-        mGeofenceList = new ArrayList<Geofence>();
+        mGeofenceList = new ArrayList<>();
 
         geofencingClient = LocationServices.getGeofencingClient(appContext);
 
-        if(!isServiceRunning(activity, GeofenceTransitionsIntentService.class.getName())) {
-            Log.d(TAG, "isServiceRunning -> FALSO");
-            Intent myService = new Intent(activity.getApplicationContext(), GeofenceTransitionsIntentService.class);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                activity.startForegroundService(myService);
-            } else {
-                activity.startService(myService);
-            }
-        } else {
-            Log.d(TAG, "isServiceRunning -> VERDAD");
-        }
     }
 
     public void addGeofence(double latitude, double longitude, int radius, String uid) {
         Log.d(TAG, "addGeofence -> " + latitude + ", " + longitude + ", " + radius + ", " + uid);
-        mGeofenceList.add(new Geofence.Builder()
-                .setRequestId(uid)
-                .setCircularRegion(
-                        latitude,
-                        longitude,
-                        radius
-                )
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                        Geofence.GEOFENCE_TRANSITION_EXIT)
-                .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                .build());
+
+        GeoDistanceCalculator.GeofenceWrapper wrapper;
+        wrapper = new GeoDistanceCalculator.GeofenceWrapper(uid, latitude, longitude, radius);
+        mGeofenceList.add(wrapper);
+    }
+
+    private List<Geofence> wrapperToGeofenceList(){
+        List<Geofence> list = new ArrayList<>();
+        for (GeoDistanceCalculator.GeofenceWrapper wrapper : mGeofenceList){
+            list.add(wrapper.toGeofenceInstance());
+        }
+        return list;
     }
 
     private GeofencingRequest getGeofencingRequest() {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
         builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER | GeofencingRequest.INITIAL_TRIGGER_DWELL | GeofencingRequest.INITIAL_TRIGGER_EXIT);
-        builder.addGeofences(mGeofenceList);
+        builder.addGeofences(wrapperToGeofenceList());
         return builder.build();
     }
 
@@ -111,34 +104,36 @@ public class GeofenceSingleton {
         if (checkPermission()) {
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(appContext);
 
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            Log.d(TAG, "Fused YO LOCAL");
-                            if (location != null) {
-                                if (checkPermission())
-                                geofencingClient.addGeofences(
-                                        getGeofencingRequest(),
-                                        getGeofencePendingIntent()
-                                ).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        // your success code
-                                        Log.d(TAG, "YO LOCAL");
-                                        initLocationRequest();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // your fail code;
-                                        Log.d(TAG, "NOO LOCAL -> " + e.getMessage());
-                                    }
-                                });
-                                Log.d(TAG, "Geofencing started");
-                            }
-                        }
+            Task<Location> task = mFusedLocationClient.getLastLocation();
+            task.addOnSuccessListener(location -> {
+                if (location != null && this.checkPermission()){
+                    GeoDistanceCalculator.GeofenceWrapper areaInside;
+                    areaInside = GeoDistanceCalculator.isPositionInsideFence(location, mGeofenceList);
+                    areaInside.name = mGeofenceList.get(0).name;
+
+                    if (areaInside.isValid()){
+                        this.executeServiceEnterArea(areaInside, "entrada");
+                    }
+                    else{
+                        GeofenceSharedPreferences.StoreValue(true);
+                        this.executeServiceEnterArea(areaInside, "salida");
+                    }
+
+                    Task<Void> innerTask = geofencingClient.addGeofences(
+                            getGeofencingRequest(),
+                            getGeofencePendingIntent()
+                    );
+
+                    innerTask = innerTask.addOnSuccessListener(aVoid -> {
+                        Log.i(TAG, "Exito agregando todas las geofences");
+                        initLocationRequest();
                     });
+
+                    innerTask.addOnFailureListener(e -> {
+                        Log.wtf(TAG, "Ocurrió un error agregando las geofences. WTF!!!!");
+                    });
+                }
+            });
 
         } else {
             Log.d(TAG, "Not permissions");
@@ -156,20 +151,17 @@ public class GeofenceSingleton {
             public void onLocationResult(LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
                     // Update UI with location data
-                    Log.d(TAG, "Geofencing Latitude NOW -> " + String.valueOf(location.getLatitude()));
-                    Log.d(TAG, "Geofencing Longitude NOW -> " + String.valueOf(location.getLongitude()));
+                    Log.d(TAG, "Posición latitud actual -> " + location.getLatitude());
+                    Log.d(TAG, "Posición longitud actual -> " + location.getLongitude());
                 }
             }
         };
 
         Handler mHandler = new Handler(getMainLooper());
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (checkPermission())
-                    mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, null);
-                Log.d(TAG, "FusedLocationClient requestLocationUpdates");
-            }
+        mHandler.post(() -> {
+            if (checkPermission())
+                mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, null);
+            Log.d(TAG, "FusedLocationClient requestLocationUpdates");
         });
     }
 
@@ -213,5 +205,19 @@ public class GeofenceSingleton {
             }
         }
         return false;
+    }
+
+    private void executeServiceEnterArea(GeoDistanceCalculator.GeofenceWrapper wrapper, String action){
+        String[] parts = wrapper.name.split("\\|");
+        Log.i(TAG, "Llamando servicio de entrada de finmarkets desde la detección manual de distancia");
+        Log.i(TAG, "Se encontró que se está dentro de la cerca con id: " + wrapper.name);
+        Log.i(TAG, "Dado que estamos a " + wrapper.distanceFromClosest + " km del centro");
+
+        Handler mHandler = new Handler(Looper.getMainLooper());
+
+        mHandler.post(() -> {
+            JSONParser jsonParser = new JSONParser();
+            jsonParser.loadServiceFinmarkets(parts[0], parts[1], FirebaseInstanceId.getInstance().getToken(), action);
+        });
     }
 }
