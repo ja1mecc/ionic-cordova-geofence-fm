@@ -1,4 +1,4 @@
-# Plugin Geofence Finmarkets IONIC v4
+# Plugin Geofence IONIC v4
 ======
 
 Plugin de iOS y Android.
