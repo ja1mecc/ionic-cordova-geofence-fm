@@ -41,7 +41,6 @@ public class BootReceiver extends BroadcastReceiver {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        // Toast.makeText(getApplicationContext(), "Entered -> " + fenceId, Toast.LENGTH_SHORT).show();
                         JSONParser jsonParser = new JSONParser();
                         jsonParser.loadServiceFinmarkets(parts[0], parts[1], FirebaseInstanceId.getInstance().getToken(), "entrada");
                     }
@@ -63,7 +62,6 @@ public class BootReceiver extends BroadcastReceiver {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        // Toast.makeText(getApplicationContext(), "Exit -> " + fenceId, Toast.LENGTH_SHORT).show();
                         JSONParser jsonParser = new JSONParser();
                         jsonParser.loadServiceFinmarkets(parts[0], parts[1], FirebaseInstanceId.getInstance().getToken(), "salida");
                     }

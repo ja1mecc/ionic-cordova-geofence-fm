@@ -78,7 +78,7 @@ public class GeofenceSingleton {
 
     private GeofencingRequest getGeofencingRequest() {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER | GeofencingRequest.INITIAL_TRIGGER_DWELL | GeofencingRequest.INITIAL_TRIGGER_EXIT);
+        //builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER | GeofencingRequest.INITIAL_TRIGGER_DWELL | GeofencingRequest.INITIAL_TRIGGER_EXIT);
         builder.addGeofences(wrapperToGeofenceList());
         return builder.build();
     }
@@ -94,8 +94,6 @@ public class GeofenceSingleton {
         Intent intent = new Intent(appContext, BootReceiver.class);
         mGeofencePendingIntent = PendingIntent.getBroadcast(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        //Intent intent = new Intent(appContext, GeofenceTransitionsIntentService.class);
-        //mGeofencePendingIntent = PendingIntent.getService(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return mGeofencePendingIntent;
     }
 
@@ -112,10 +110,12 @@ public class GeofenceSingleton {
                     areaInside.name = mGeofenceList.get(0).name;
 
                     if (areaInside.isValid()){
+                        Log.d(TAG, "PASO POR entrada!!! " + areaInside.name);
                         this.executeServiceEnterArea(areaInside, "entrada");
                     }
                     else{
-                        GeofenceSharedPreferences.StoreValue(true);
+                        Log.d(TAG, "PASO POR salida!!! " + areaInside.name);
+                        //GeofenceSharedPreferences.StoreValue(true);
                         this.executeServiceEnterArea(areaInside, "salida");
                     }
 

@@ -2,6 +2,7 @@ package com.example;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class GeofenceSharedPreferences {
     private static SharedPreferences sharedPreferences;

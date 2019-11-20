@@ -19,7 +19,7 @@ import java.net.URL;
 public class JSONParser {
     private static final String TAG = "JSONParser";
     private String server = "https://collahuasi-sos.finmarketslive.cl";
-    // String server = "http://finmarketsbackup.cl/maltamirano/collahuasi-sos";
+    //private String server = "http://finmarketsbackup.cl/maltamirano/collahuasi-sos";
 
     public void loadServiceFinmarkets(String area, String rut, String clave, String action) {
         Log.i(TAG, "area -> " + area + ", rut -> " + rut + ", clave -> " + clave + ", action -> " + action);
@@ -127,8 +127,10 @@ public class JSONParser {
             int HttpResult = urlConnection.getResponseCode();
             if (HttpResult == HttpURLConnection.HTTP_OK) {
                 if (action.equals("entrada")){
+                    Log.d(TAG,"ENTRO EN LLAMADA SERVICIO AQUI");
                     GeofenceSharedPreferences.StoreValue(false);
                 } else if (action.equals("salida")){
+                    Log.d(TAG,"ENTRO EN LLAMADA SERVICIO ACA");
                     GeofenceSharedPreferences.StoreValue(true);
                 }
 

@@ -113,7 +113,7 @@ public class GeofenceFM extends CordovaPlugin {
 
             if (action.equals("readIsButtonDisabled")){
                 boolean res = GeofenceSharedPreferences.readStoredValue();
-
+                Log.d("GeofenceFM", "readIsButtonDisabled -> "+res);
                 PluginResult result = new PluginResult(PluginResult.Status.OK, res);
                 callbackContext.sendPluginResult(result);
             }
@@ -121,6 +121,7 @@ public class GeofenceFM extends CordovaPlugin {
             if (action.equals("storeDisabledButton")){
                 try {
                     boolean res = args.getBoolean(0);
+                    Log.d("GeofenceFM", "storeDisabledButton -> "+res);
                     GeofenceSharedPreferences.StoreValue(res);
                     callbackContext.success();
                 } catch (JSONException e) {
